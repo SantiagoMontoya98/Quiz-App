@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Form } from 'react-bootstrap'
-import { questionGeek } from '../Cuestionario';
 import { ButtonStyle, DivForm, FormStyle, RadioStyle, Titulo } from '../styles/CardQuestion'
 
 export default class Question extends Component {
 
-  constructor() {
-    super();
-    this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {      
       numberQuestion: 0,
       question: {
         question: "",
@@ -24,7 +23,9 @@ export default class Question extends Component {
 
   componentDidMount() {
 
-        const currentQuizData = questionGeek[this.state.numberQuestion];
+        const currentQuizData = this.props.cuestionario[this.state.numberQuestion];
+
+        console.log(currentQuizData);
 
         this.setState({
             question: {
@@ -36,6 +37,8 @@ export default class Question extends Component {
                 correct: currentQuizData.correct
             }
         })
+
+        console.log(this.state);
   } 
 
     onChanged = (e) => {
@@ -54,7 +57,7 @@ export default class Question extends Component {
                 score: this.state.score + 1,
             })
         }
-        if (this.state.numberQuestion < questionGeek.length) {
+        if (this.state.numberQuestion < this.props.cuestionario.length) {
             this.componentDidMount()
         } else {
             console.log(this.state.score);
@@ -113,7 +116,7 @@ export default class Question extends Component {
               Enviar
           </ButtonStyle>
 
-          <h2 style={{ textAlign: "center" }}>{this.state.score}/{questionGeek.length} </h2>
+          <h2 style={{ textAlign: "center" }}>{this.state.score}/{this.props.cuestionario.length} </h2>
 
         </FormStyle>
       </DivForm>
